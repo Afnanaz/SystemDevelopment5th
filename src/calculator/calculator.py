@@ -10,8 +10,16 @@ class InvalidInputException(Exception):
 
 class Calculator:
     """Calculator class providing basic arithmetic operations."""
+    MAX_VALUE = 1000000
+    MIN_VALUE = -1000000
 
-
+    def _validate_input(self, *values):
+        for value in values:
+            if value > self.MAX_VALUE or value < self.MIN_VALUE:
+                raise InvalidInputException(
+                    f"Value {value} is outside the valid range "
+                    f"({self.MIN_VALUE} to {self.MAX_VALUE})"
+                )
 
     def add(self, a, b):
         """Add two numbers.
