@@ -5,6 +5,7 @@ Test suite for the Calculator class.
 import pytest
 from calculator.calculator import Calculator, InvalidInputException
 
+
 class TestAddition:
     """Tests for the add method."""
 
@@ -129,59 +130,7 @@ class TestAddition:
         """Test add covers zero with negative."""
         calc = Calculator()
         assert calc.add(0, -5) == -5
-   
-    def test_add_above_max_raises(self):
-        calc = Calculator()
-        with pytest.raises(InvalidInputException):
-            calc.add(Calculator.MAX_VALUE + 1, 0)
 
-    def test_add_below_min_raises(self):
-        calc = Calculator()
-        with pytest.raises(InvalidInputException):
-            calc.add(Calculator.MIN_VALUE - 1, 1)
-
-    def test_add_second_arg_out_of_range_raises(self):
-        calc = Calculator()
-        with pytest.raises(InvalidInputException):
-            calc.add(0, Calculator.MAX_VALUE + 1)
-
-    def test_add_second_arg_below_min_raises(self):
-        calc = Calculator()
-        with pytest.raises(InvalidInputException):
-            calc.add(0, Calculator.MIN_VALUE - 1)
-
-    def test_add_equal_max_is_allowed(self):
-        calc = Calculator()
-        assert calc.add(Calculator.MAX_VALUE, 0) == Calculator.MAX_VALUE
-
-    def test_add_equal_min_is_allowed(self):
-        calc = Calculator()
-        assert calc.add(Calculator.MIN_VALUE, 0) == Calculator.MIN_VALUE
-
-    def test_both_add_out_of_range(self):
-        calc = Calculator()
-        with pytest.raises(InvalidInputException):
-            calc.add(Calculator.MAX_VALUE + 1, Calculator.MIN_VALUE - 1)
-
-    def test_validate_input_out_of_range_high(self):
-        calc = Calculator()
-        with pytest.raises(InvalidInputException):
-            calc.add(1000001, 1)
-
-    def test_validate_input_out_of_range_low(self):
-        calc = Calculator()
-        with pytest.raises(InvalidInputException):
-            calc.add(-1000002, 1)
-
-    def test_validation_error_message_contains_value_and_range(self):
-        calc = Calculator()
-        with pytest.raises(InvalidInputException) as excinfo:
-            calc.add(Calculator.MAX_VALUE + 1, 0)
-
-        msg = str(excinfo.value)
-        assert "outside the valid range" in msg
-        assert str(Calculator.MIN_VALUE) in msg
-        assert str(Calculator.MAX_VALUE) in msg
 
 
 class TestSubtraction:
@@ -277,29 +226,6 @@ class TestSubtraction:
         # Assert
         assert result == expected
 
-    def test_subtract_below_max_raises(self):
-        calc = Calculator()
-        with pytest.raises(InvalidInputException):
-            calc.subtract(Calculator.MIN_VALUE - 1, 0)
-
-    def test_subtarct_second_arg_out_of_range_raises(self):
-        calc = Calculator()
-        with pytest.raises(InvalidInputException):
-            calc.subtract(0, Calculator.MAX_VALUE + 1)
-
-    def test_subtarct_second_arg_below_min_raises(self):
-        calc = Calculator()
-        with pytest.raises(InvalidInputException):
-            calc.subtract(0, Calculator.MIN_VALUE - 1)
-   
-    def test_subtract_equal_max_is_allowed(self):
-        calc = Calculator()
-        assert calc.subtract(Calculator.MAX_VALUE, 0) == Calculator.MAX_VALUE
-
-    def test_subtract_equal_min_is_allowed(self):
-        calc = Calculator()
-        assert calc.subtract(Calculator.MIN_VALUE, 0) == Calculator.MIN_VALUE
-
 
 class TestMultiplication:
     """Tests for the multiply method."""
@@ -378,30 +304,6 @@ class TestMultiplication:
         """Test multiply distinguishes from divide/add."""
         calc = Calculator()
         assert calc.multiply(6, 3) == 18
-
-    def test_multiply_below_min_raises(self):
-        calc = Calculator()
-        with pytest.raises(InvalidInputException):
-            calc.multiply(Calculator.MIN_VALUE - 1, 1)
-
-    def test_multiply_first_arg_out_of_range_raises(self):
-        calc = Calculator()
-        with pytest.raises(InvalidInputException):
-            calc.multiply(Calculator.MAX_VALUE + 1, 1)
-
-    def test_multiply_second_arg_out_of_range_raises(self):
-        calc = Calculator()
-        with pytest.raises(InvalidInputException):
-            calc.multiply(1, Calculator.MIN_VALUE - 1)
-
-    def test_multiply_equal_max_is_allowed(self):
-        calc = Calculator()
-        assert calc.multiply(Calculator.MAX_VALUE, 1) == Calculator.MAX_VALUE
-
-    def test_multiply_equal_min_is_allowed(self):
-        calc = Calculator()
-        assert calc.multiply(Calculator.MIN_VALUE, 1) == Calculator.MIN_VALUE
-
 
 class TestDivision:
     """Tests for the divide method."""
@@ -506,6 +408,97 @@ class TestDivision:
         calc = Calculator()
         assert calc.divide(9, 3) == 3
 
+
+class TestValidation:
+    def test_add_above_max_raises(self):
+        calc = Calculator()
+        with pytest.raises(InvalidInputException):
+            calc.add(Calculator.MAX_VALUE + 1, 0)
+
+    def test_add_below_min_raises(self):
+        calc = Calculator()
+        with pytest.raises(InvalidInputException):
+            calc.add(Calculator.MIN_VALUE - 1, 1)
+   
+    def test_subtract_below_max_raises(self):
+        calc = Calculator()
+        with pytest.raises(InvalidInputException):
+            calc.subtract(Calculator.MIN_VALUE - 1, 0)
+
+    def test_multiply_below_min_raises(self):
+        calc = Calculator()
+        with pytest.raises(InvalidInputException):
+            calc.multiply(Calculator.MIN_VALUE - 1, 1)
+
+    def test_multiply_first_arg_out_of_range_raises(self):
+        calc = Calculator()
+        with pytest.raises(InvalidInputException):
+            calc.multiply(Calculator.MAX_VALUE + 1, 1)
+
+    def test_multiply_second_arg_out_of_range_raises(self):
+        calc = Calculator()
+        with pytest.raises(InvalidInputException):
+            calc.multiply(1, Calculator.MIN_VALUE - 1)
+
+    def test_add_second_arg_out_of_range_raises(self):
+        calc = Calculator()
+        with pytest.raises(InvalidInputException):
+            calc.add(0, Calculator.MAX_VALUE + 1)
+
+    def test_add_second_arg_below_min_raises(self):
+        calc = Calculator()
+        with pytest.raises(InvalidInputException):
+            calc.add(0, Calculator.MIN_VALUE - 1)
+
+    def test_subtarct_second_arg_out_of_range_raises(self):
+        calc = Calculator()
+        with pytest.raises(InvalidInputException):
+            calc.subtract(0, Calculator.MAX_VALUE + 1)
+
+    def test_subtarct_second_arg_below_min_raises(self):
+        calc = Calculator()
+        with pytest.raises(InvalidInputException):
+            calc.subtract(0, Calculator.MIN_VALUE - 1)
+
+    def test_add_equal_max_is_allowed(self):
+        calc = Calculator()
+        assert calc.add(Calculator.MAX_VALUE, 0) == Calculator.MAX_VALUE
+
+    def test_subtract_equal_max_is_allowed(self):
+        calc = Calculator()
+        assert calc.subtract(Calculator.MAX_VALUE, 0) == Calculator.MAX_VALUE
+
+    def test_multiply_equal_max_is_allowed(self):
+        calc = Calculator()
+        assert calc.multiply(Calculator.MAX_VALUE, 1) == Calculator.MAX_VALUE
+
+    def test_add_equal_min_is_allowed(self):
+        calc = Calculator()
+        assert calc.add(Calculator.MIN_VALUE, 0) == Calculator.MIN_VALUE
+
+    def test_multiply_equal_min_is_allowed(self):
+        calc = Calculator()
+        assert calc.multiply(Calculator.MIN_VALUE, 1) == Calculator.MIN_VALUE
+
+    def test_subtract_equal_min_is_allowed(self):
+        calc = Calculator()
+        assert calc.subtract(Calculator.MIN_VALUE, 0) == Calculator.MIN_VALUE
+
+    def test_both_add_out_of_range(self):
+        calc = Calculator()
+        with pytest.raises(InvalidInputException):
+            calc.add(Calculator.MAX_VALUE + 1, Calculator.MIN_VALUE - 1)
+
+    def test_validate_input_out_of_range_high(self):
+        calc = Calculator()
+        with pytest.raises(InvalidInputException):
+            calc.add(1000001, 1)
+
+    def test_validate_input_out_of_range_low(self):
+        calc = Calculator()
+        with pytest.raises(InvalidInputException):
+            calc.add(-1000002, 1)
+
     def test_divide_first_arg_out_of_range_raises(self):
         calc = Calculator()
         with pytest.raises(InvalidInputException):
@@ -524,9 +517,13 @@ class TestDivision:
         msg = str(excinfo.value)
         assert msg == "Cannot divide by zero"
 
+    def test_validation_error_message_contains_value_and_range(self):
+        calc = Calculator()
+        with pytest.raises(InvalidInputException) as excinfo:
+            calc.add(Calculator.MAX_VALUE + 1, 0)
 
-
-
-
-
+        msg = str(excinfo.value)
+        assert "outside the valid range" in msg
+        assert str(Calculator.MIN_VALUE) in msg
+        assert str(Calculator.MAX_VALUE) in msg
 
